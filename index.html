@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kenny Trivia: Big Back Edition</title>
+    <title>Kenny Trivia: Ultimate Big Back Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
     <style>
@@ -46,10 +46,10 @@
         <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="marker-font text-4xl md:text-6xl text-green-400 mb-2 neon-text">KENNY TRIVIA</h1>
-            <p class="text-gray-400 italic">"The Big Back & Kickflips Chronicles"</p>
+            <p class="text-gray-400 italic">"The Big Back, Plastic Cheese & Pavement Chronicles"</p>
             <div class="mt-4 flex justify-center space-x-4">
                 <span id="score-display" class="bg-gray-800 px-4 py-1 rounded-full text-green-400 font-bold border border-green-500">Score: 0</span>
-                <span id="progress-display" class="bg-gray-800 px-4 py-1 rounded-full text-purple-400 font-bold border border-purple-500">Q: 1/3</span>
+                <span id="progress-display" class="bg-gray-800 px-4 py-1 rounded-full text-purple-400 font-bold border border-purple-500">Q: 1/13</span>
             </div>
         </div>
 
@@ -113,6 +113,126 @@
                 correct: 2,
                 roast: "CHEESE ADDICT ALERT.",
                 sub: "Doctors hate him, but the dairy industry loves him."
+            },
+            {
+                question: "What sound does the pavement make when Kenny fails a pop shove-it?",
+                options: [
+                    "A gentle scrape",
+                    "A deafening 'THUD' followed by an earthquake warning",
+                    "The sound of silence",
+                    "A melodic whistle"
+                ],
+                correct: 1,
+                roast: "GROUND-BREAKING PERFORMANCE.",
+                sub: "The city council sent him a bill for the crater he left."
+            },
+            {
+                question: "How many slices of yellow plastic cheese does Kenny consider a 'light snack'?",
+                options: [
+                    "Zero, he's healthy",
+                    "Half a slice",
+                    "The entire 24-pack of Kraft singles",
+                    "A sprinkle of parmesan"
+                ],
+                correct: 2,
+                roast: "PLASTIC LUNGS.",
+                sub: "His blood type is officially 'American Slice'."
+            },
+            {
+                question: "What's Kenny's excuse when he snaps a professional-grade skateboard deck?",
+                options: [
+                    "The wood was dry",
+                    "It was a manufacturing defect",
+                    "Gravity was working harder than usual today",
+                    "I stepped on it too fast"
+                ],
+                correct: 2,
+                roast: "GRAVITY'S OPPRESSION.",
+                sub: "Nah Kenny, the board just gave up on life."
+            },
+            {
+                question: "When Kenny goes to a buffet, what is the staff's standard reaction?",
+                options: [
+                    "They welcome him with open arms",
+                    "They flip the 'Open' sign to 'Closed' and hide in the freezer",
+                    "They give him a gold member card",
+                    "They offer him a free glass of water"
+                ],
+                correct: 1,
+                roast: "BUFFET DISASTER.",
+                sub: "The owner started crying when he saw Kenny's car in the lot."
+            },
+            {
+                question: "Why does Kenny carry a pack of hamburger cheese in his back pocket at the skate park?",
+                options: [
+                    "In case of a mid-skate emergency burger craving",
+                    "To wax the rails (he doesn't know what wax is)",
+                    "As a spare 'kickstand' for his board",
+                    "To use as a bandage for his inevitable faceplant"
+                ],
+                correct: 0,
+                roast: "TACTICAL SNACKING.",
+                sub: "Man's got 5-star priorities."
+            },
+            {
+                question: "What's the most common injury Kenny gets while skating?",
+                options: [
+                    "Sprained ankle",
+                    "Skinned knee",
+                    "Jaw fatigue from eating a burger while riding",
+                    "Bruised ego"
+                ],
+                correct: 2,
+                roast: "CHAMPION EATER.",
+                sub: "Multitasking at its absolute worst."
+            },
+            {
+                question: "Kenny says he's 'bulking.' What is he actually bulking for?",
+                options: [
+                    "A bodybuilding competition",
+                    "To win the Guinness World Record for most cheese consumed in one sitting",
+                    "The Winter Olympics",
+                    "A math tournament"
+                ],
+                correct: 1,
+                roast: "PROFESSIONAL BULKER.",
+                sub: "He's been bulking since 2012. We're still waiting for the cut."
+            },
+            {
+                question: "What happens when Kenny tries to drop into a half-pipe?",
+                options: [
+                    "He catches air like Tony Hawk",
+                    "The half-pipe turns into a flat-pipe",
+                    "He stops halfway down because he smells bacon",
+                    "He does a triple kickflip on accident"
+                ],
+                correct: 2,
+                roast: "SENSE OF SMELL: 100.",
+                sub: "Skating is temporary, bacon is forever."
+            },
+            {
+                question: "What's Kenny's 'signature move' at the burger joint?",
+                options: [
+                    "Leaving a generous tip",
+                    "Asking for 'just one more' slice of cheese (for the 10th time)",
+                    "Cleaning his own table",
+                    "Ordering off the kids' menu"
+                ],
+                correct: 1,
+                roast: "CHEESE BANDIT.",
+                sub: "The cashier sees him coming and just grabs the whole block."
+            },
+            {
+                question: "If Kenny had to choose between a custom pro skateboard and a lifetime supply of extra-thick hamburger cheese, what's he picking?",
+                options: [
+                    "The board, obviously",
+                    "He'd ask for both and then eat the board too",
+                    "The cheese (he's already heading to the kitchen)",
+                    "A mountain bike"
+                ],
+                correct: 2,
+                roast: "CHEESE OVER EVERYTHING.",
+                sub: "We all knew the answer before we even asked."
             }
         ];
 
@@ -133,7 +253,7 @@
         function loadQuestion() {
             const q = triviaData[currentQuestion];
             qText.innerText = q.question;
-            progressDisplay.innerText = `Q: ${currentQuestion + 1}/3`;
+            progressDisplay.innerText = `Q: ${currentQuestion + 1}/${triviaData.length}`;
             optionsContainer.innerHTML = '';
             
             q.options.forEach((opt, index) => {
@@ -180,9 +300,9 @@
             feedback.classList.add('hidden');
             finalScreen.classList.remove('hidden');
             let msg = "";
-            if (score === 3) msg = "PERFECT! You know Kenny's big back habits too well. Seek help.";
-            else if (score >= 1) msg = "Not bad, but Kenny's calorie intake is still higher than your score.";
-            else msg = "You know nothing about the legend. Did you even see his extra cheese order?";
+            if (score === triviaData.length) msg = "ULTIMATE BIG BACK CHAMPION! You know Kenny's habits better than he knows his own cholesterol levels.";
+            else if (score >= 7) msg = "Solid effort. You've definitely seen Kenny eat a board or two.";
+            else msg = "You're too nice to Kenny. He's literally eating a cheese-wrapped deck right now and you missed it.";
             document.getElementById('final-msg').innerText = msg;
         }
 
