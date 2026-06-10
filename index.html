@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenny Trivia: Big Back Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #050505;
+            font-family: 'Space Grotesk', sans-serif;
+            color: #fff;
+        }
+        .neon-text {
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+        }
+        .neon-border {
+            box-shadow: 0 0 10px #00ff00, inset 0 0 5px #00ff00;
+            border: 2px solid #00ff00;
+        }
+        .neon-purple {
+            box-shadow: 0 0 10px #bc13fe, inset 0 0 5px #bc13fe;
+            border: 2px solid #bc13fe;
+        }
+        .marker-font {
+            font-family: 'Permanent Marker', cursive;
+        }
+        .card {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div id="game-container" class="max-w-2xl w-full card neon-border rounded-2xl p-8 relative overflow-hidden">
+        <!-- Background Accents -->
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-green-500 rounded-full blur-[80px] opacity-20"></div>
+        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-600 rounded-full blur-[80px] opacity-20"></div>
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="marker-font text-4xl md:text-6xl text-green-400 mb-2 neon-text">KENNY TRIVIA</h1>
+            <p class="text-gray-400 italic">"The Big Back & Kickflips Chronicles"</p>
+            <div class="mt-4 flex justify-center space-x-4">
+                <span id="score-display" class="bg-gray-800 px-4 py-1 rounded-full text-green-400 font-bold border border-green-500">Score: 0</span>
+                <span id="progress-display" class="bg-gray-800 px-4 py-1 rounded-full text-purple-400 font-bold border border-purple-500">Q: 1/3</span>
+            </div>
+        </div>
+
+        <!-- Question Section -->
+        <div id="question-box" class="space-y-6">
+            <h2 id="question-text" class="text-2xl font-bold text-white mb-6 leading-tight">Loading question...</h2>
+            <div id="options-container" class="grid grid-cols-1 gap-4">
+                <!-- Buttons will be injected here -->
+            </div>
+        </div>
+
+        <!-- Result Feedback -->
+        <div id="feedback" class="mt-8 text-center hidden">
+            <p id="feedback-text" class="text-xl font-bold italic mb-2"></p>
+            <p id="feedback-sub" class="text-gray-400 text-sm"></p>
+            <button id="next-btn" class="mt-6 neon-purple px-8 py-3 rounded-full font-bold text-purple-400 btn-hover uppercase tracking-widest">Next Roast</button>
+        </div>
+
+        <!-- Final Score Screen -->
+        <div id="final-screen" class="text-center hidden py-10">
+            <h2 class="marker-font text-5xl text-white mb-4">GAME OVER</h2>
+            <p id="final-msg" class="text-2xl text-green-400 mb-8"></p>
+            <button onclick="location.reload()" class="neon-border px-10 py-4 rounded-xl font-bold text-green-400 btn-hover uppercase">Try Again (Kenny Won't Like It)</button>
+        </div>
+    </div>
+
+    <script>
+        const triviaData = [
+            {
+                question: "What is Kenny's legendary 'Big Back' order that single-handedly funded a local burger joint for a month?",
+                options: [
+                    "A light salad with vinaigrette",
+                    "A double bacon cheeseburger, extra large fries, and a diet coke (to balance it out)",
+                    "A quadruple meat monster with 2 orders of fries and a milkshake",
+                    "Three chicken nuggets and a water"
+                ],
+                correct: 2,
+                roast: "BIG BACK BEHAVIOR DETECTED.",
+                sub: "Kenny really walked in there and said 'Give me the whole menu'."
+            },
+            {
+                question: "Kenny claims he's a skater pro. What actually happens when he tries a kickflip?",
+                options: [
+                    "He lands it perfectly every time (In his dreams)",
+                    "The board snaps in half under the pressure of his big back",
+                    "He forgets the board exists and just jumps into the air",
+                    "He ends up doing a accidental backflip into the bushes"
+                ],
+                correct: 0,
+                roast: "IMAGINATION IS A POWERFUL TOOL.",
+                sub: "The only thing Kenny's flipping is his burger patties."
+            },
+            {
+                question: "What is Kenny's 'Extra Cheese' policy when ordering food?",
+                options: [
+                    "One slice is plenty",
+                    "He's actually lactose intolerant",
+                    "If he can still see the meat, there isn't enough cheese",
+                    "He only eats vegan cheese"
+                ],
+                correct: 2,
+                roast: "CHEESE ADDICT ALERT.",
+                sub: "Doctors hate him, but the dairy industry loves him."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const qText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedback = document.getElementById('feedback');
+        const feedbackText = document.getElementById('feedback-text');
+        const feedbackSub = document.getElementById('feedback-sub');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreDisplay = document.getElementById('score-display');
+        const progressDisplay = document.getElementById('progress-display');
+        const finalScreen = document.getElementById('final-screen');
+        const qBox = document.getElementById('question-box');
+
+        function loadQuestion() {
+            const q = triviaData[currentQuestion];
+            qText.innerText = q.question;
+            progressDisplay.innerText = `Q: ${currentQuestion + 1}/3`;
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-gray-700 bg-gray-900/50 hover:border-green-500 hover:bg-green-500/10 transition-all duration-200 text-lg btn-hover";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+            
+            feedback.classList.add('hidden');
+            qBox.classList.remove('hidden');
+        }
+
+        function checkAnswer(index) {
+            const q = triviaData[currentQuestion];
+            qBox.classList.add('hidden');
+            feedback.classList.remove('hidden');
+
+            if (index === q.correct) {
+                score++;
+                feedbackText.innerText = `✅ CORRECT! ${q.roast}`;
+                feedbackText.className = "text-xl font-bold italic mb-2 text-green-400";
+                feedbackSub.innerText = q.sub;
+            } else {
+                feedbackText.innerText = "❌ WRONG. Kenny is disappointed (but still eating).";
+                feedbackText.className = "text-xl font-bold italic mb-2 text-red-500";
+                feedbackSub.innerText = "The correct answer was: " + q.options[q.correct];
+            }
+            
+            scoreDisplay.innerText = `Score: ${score}`;
+        }
+
+        nextBtn.onclick = () => {
+            currentQuestion++;
+            if (currentQuestion < triviaData.length) {
+                loadQuestion();
+            } else {
+                showFinal();
+            }
+        };
+
+        function showFinal() {
+            feedback.classList.add('hidden');
+            finalScreen.classList.remove('hidden');
+            let msg = "";
+            if (score === 3) msg = "PERFECT! You know Kenny's big back habits too well. Seek help.";
+            else if (score >= 1) msg = "Not bad, but Kenny's calorie intake is still higher than your score.";
+            else msg = "You know nothing about the legend. Did you even see his extra cheese order?";
+            document.getElementById('final-msg').innerText = msg;
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
